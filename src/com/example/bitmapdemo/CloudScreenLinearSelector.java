@@ -270,7 +270,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		cloudHeight = getHeight();
+		setCloudHeight(getHeight());
 		cloudWidth = getWidth();
 		//Log.d(TAG, "cloudHeight::" + cloudHeight + "|cloudWidth::" + cloudWidth);
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -291,7 +291,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 			for (int i = 0; i < count; i++) {
 				View child = mViewGroupLinearLayout.getChildAt(i);
 				if (child.getVisibility() != GONE) {
-					itemHeight = child.getHeight();
+					setItemHeight(child.getHeight());
 					itemWidth = child.getWidth();
 					itemAllInScreen += itemWidth;
 					if (itemAllInScreen <= cloudWidth)
@@ -375,7 +375,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 				theFocusViewHeight = v.getHeight();
 				theFocusViewWidth = v.getWidth();
 				theFocusViewX = v.getX();
-				theFocusViewY = v.getY();
+				setTheFocusViewY(v.getY());
 				mHandler.sendEmptyMessage(FOCUS_VIEW_MOVE);
 			} else {
 
@@ -392,7 +392,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 			theFocusViewHeight = v.getHeight();
 			theFocusViewWidth = v.getWidth();
 			theFocusViewX = v.getX();
-			theFocusViewY = v.getY();
+			setTheFocusViewY(v.getY());
 			mHandler.sendEmptyMessage(FOCUS_VIEW_MOVE);
 			
 		}
@@ -529,7 +529,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 					Log.d(TAG, view.getWidth() + "|" + view.getHeight());*/
 					mViewGroupLinearLayout.addView(view, i);
 					itemWidth = view.getWidth();
-					itemHeight = view.getHeight();
+					setItemHeight(view.getHeight());
 
 				}
 				liearLayout.addView(mViewGroupLinearLayout);
@@ -1039,6 +1039,27 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 */
 	public LinearSelectorOnClickListener getLinearSelectorOnClickListener() {
 		return linearSelectorOnClickListener;
+	}
+
+	public int getCloudHeight() {
+		return cloudHeight;
+	}
+	public void setCloudHeight(int cloudHeight) {
+		this.cloudHeight = cloudHeight;
+	}
+
+	public int getItemHeight() {
+		return itemHeight;
+	}
+	public void setItemHeight(int itemHeight) {
+		this.itemHeight = itemHeight;
+	}
+
+	public float getTheFocusViewY() {
+		return theFocusViewY;
+	}
+	public void setTheFocusViewY(float theFocusViewY) {
+		this.theFocusViewY = theFocusViewY;
 	}
 
 	/**
