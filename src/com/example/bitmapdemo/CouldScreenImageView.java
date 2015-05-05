@@ -1,9 +1,13 @@
 package com.example.bitmapdemo;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -46,6 +50,10 @@ public class CouldScreenImageView extends ImageView {
 	 * @Fields isAnim
 	 */
 	private boolean isAnim = false;
+	/**
+	 * @Fields am
+	 */
+	private AssetManager am;
 
 	public CouldScreenImageView(Context context) {
 		super(context);
@@ -154,6 +162,26 @@ public class CouldScreenImageView extends ImageView {
 	 */
 	public void setIsAnim(boolean isAnim) {
 		this.isAnim = isAnim;
+	}
+	
+	/**
+	 * @Title: CouldScreenImageView
+	 * @author:张鹏展
+	 * @Description: 加载asset 中的图片
+	 * @param arg1
+	 */
+	public void setImage(String arg1) {
+		try {
+			if (null == am) {
+				am = mContext.getAssets();
+			}
+			InputStream is = am.open(arg1);
+			Bitmap bitmap = CloudScreenBitmapFactory.decodeStreamFromColudSvreenOptions(is);
+			setImageBitmap(bitmap);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
