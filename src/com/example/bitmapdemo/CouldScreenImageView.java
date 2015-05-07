@@ -79,7 +79,6 @@ public class CouldScreenImageView extends ImageView {
 	 * @Description: 初始哈一下动画内容,同时设置一个黑色的背景
 	 */
 	private void initAnimator() {
-		this.setBackgroundColor(Color.BLACK);
 		inAnimator = ObjectAnimator.ofFloat(this, "alpha", 1, 0.5f);// 淡出效果
 		inAnimator.setDuration(Duration);
 		inAnimator.setInterpolator(new AccelerateInterpolator());

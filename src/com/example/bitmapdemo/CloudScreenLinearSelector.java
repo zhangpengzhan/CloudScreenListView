@@ -134,7 +134,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 * x 和 y 轴上的偏差
 	 * @Fields deviationX
 	 */
-	private float deviationX = 40,deviationY = 20;
+	private float deviationX = -30,deviationY =125;
 	/**
 	 * 焦点view
 	 * 
@@ -270,10 +270,10 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		setCloudHeight(getHeight());
 		cloudWidth = getWidth();
-		//Log.d(TAG, "cloudHeight::" + cloudHeight + "|cloudWidth::" + cloudWidth);
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		Log.d(TAG, "cloudHeight::" + cloudHeight + "|cloudWidth::" + cloudWidth);
 	}
 
 	/*
@@ -568,10 +568,12 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 			Log.d(TAG, "RIGHT+++>" + isTheFocusViewAtConfusion());
 			if (isLastOne()) {
 				if (isTheFocusViewAtConfusion()) {
+					Log.d(TAG, "startAnimaction::30");
 					setTheFocusViewMove(theFocusViewWidth, theFocusViewHeight, focusImageView.getX()+itemWidth-getViewDeviationOutScreen()+deviationX/2, 0, deviationX,
 							deviationY);
 					setTheLinearViewGroupMove(getViewDeviationOutScreen(), 0);
 				} else {
+					Log.d(TAG, "startAnimaction::31");
 					setTheLinearViewGroupMove(theFocusViewWidth - getViewDeviationOutScreen(), 0);
 				}
 				Log.d(TAG, "startAnimaction::3");
@@ -654,12 +656,12 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	private boolean isTheFocusViewAtConfusion() {
 		Log.d(TAG, "focusImageView.getX()::"+focusImageView.getX()+"|focusImageView.getWidth()::"+focusImageView.getWidth()+"|itemWidth:"+itemWidth);
 		float focusViewX = focusImageView.getX() +deviationX/2 ;
-		if (focusViewX == theFocusViewDeviationX || focusViewX== (cloudWidth - focusImageView.getWidth())) {
+		if ((focusViewX == theFocusViewDeviationX&&viewIndex == 0) || ((focusViewX== cloudWidth - focusImageView.getWidth()&&viewIndex == (baseAdapter.getCount()-1)))) {
 			return false;
 		} 
 		Log.d(TAG, "Right:"+(focusViewX + itemWidth > (cloudWidth - focusImageView.getWidth()))+"|cloudWidth:"+cloudWidth);
-		return (focusViewX - itemWidth <= theFocusViewDeviationX)
-				|| (focusViewX + itemWidth > (cloudWidth - focusImageView.getWidth()+deviationX));
+		return( (focusViewX - itemWidth <= theFocusViewDeviationX)&&viewIndex == 0)
+				|| ((focusViewX + itemWidth > (cloudWidth - focusImageView.getWidth()+deviationX)&&viewIndex == (baseAdapter.getCount()-1)));
 	}
 	
 	/**

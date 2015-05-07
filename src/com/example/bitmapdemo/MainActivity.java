@@ -1,10 +1,16 @@
 package com.example.bitmapdemo;
 
+import java.io.IOException;
+import java.text.Collator;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,14 +20,26 @@ import android.view.ViewGroup;
 public class MainActivity extends ActionBarActivity {
 	Bitmap bitmap;
 	 AssetManager am;
+	 String[] arrays;
 	 CloudScreenLinearSelector imageView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		imageView = new CloudScreenLinearSelector(getBaseContext());
-		imageView.setAdapter(new CloudScreenLinearSelectorAdapter(getBaseContext()));
+		am = getAssets();
+		try {
+			arrays = am.list("bgth");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		/*设置语言环境*/  
+        Comparator<Object> com = Collator.getInstance(java.util.Locale.CHINA);  
+        Arrays.sort(arrays, com);  
+        imageView.setAdapter(new CloudScreenLinearSelectorAdapter(getBaseContext(),arrays));
+        for(String s:arrays){
+		Log.d("MainActivity", "=="+s);
+        }
 /*		try {
-            am = getAssets();
             InputStream is = am.open("a.jpg");
             bitmap = CloudScreenBitmapFactory.decodeStreamFromColudSvreenOptions(is);
             imageView.setImageBitmap(bitmap);
