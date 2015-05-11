@@ -46,6 +46,7 @@ public class CloudScreenLinearSelectorAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = LayoutInflater.from(mContext).inflate(R.layout.bg_item, null);
 		CouldScreenImageView tv = (CouldScreenImageView)view.findViewById(R.id.imageView1);
+		((TextView)view.findViewById(R.id.textView1)).setText(String.valueOf(position));
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(706, 540);
 		tv.setImage("bgth/"+path[position]);
 		itemList.add(position,view);

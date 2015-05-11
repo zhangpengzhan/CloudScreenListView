@@ -476,6 +476,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 			switch (msg.what) {
 			case KeyEvent.KEYCODE_DPAD_LEFT:
 				viewIndex--;
+				Log.d(TAG, "0::viewIndex::" + viewIndex);
 				if (viewIndex < 0) {
 					viewIndex = 0;
 					break;
@@ -536,6 +537,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 				addView(liearLayout);
 				addView(focusImageView);
 				requestLayout();
+				mDispathKayStatus = DispathKayStatus.FIRST;
 				mHandler.sendEmptyMessage(SELECT_FIRST_VIEW);
 				break;
 			case FOCUS_VIEW_MOVE:
@@ -556,6 +558,21 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 */
 	private void startAnimaction() {
 		switch (mDispathKayStatus) {
+		case FIRST:
+			if (getViewStandIndex() >= getViewFirstIndex()) {
+				setTheFocusViewMove(theFocusViewWidth, theFocusViewHeight, theFocusViewX, 0, deviationX, deviationY);
+			} else {
+				try {
+					setTheFocusViewMove(theFocusViewWidth, theFocusViewHeight, (getViewStandIndex()-1)*theFocusViewWidth, 0, deviationX, deviationY);
+					Log.d("AA", "startAnimaction==>FIRST==>theFocusViewWidth::"+theFocusViewWidth+"||deivi:::"+(getViewFirstIndex()-getViewStandIndex()+1));
+					setTheLinearViewGroupMove(theFocusViewWidth*(getViewFirstIndex()-1), 0);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+			break;
 		case RIGHT:
 			if (isViewStandIndex()) {
 				setTheFocusViewMove(theFocusViewWidth, theFocusViewHeight, theFocusViewX, 0, deviationX, deviationY);
@@ -786,8 +803,8 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 			mItemSelectLinstener.select(viewIndex,v);
 		}
 		theItemSelectListener.select(viewIndex, v);
-		/*focusView.requestFocus();
-		Log.d(TAG, "==" + focusView.requestFocus());*/
+		/*focusView.requestFocus();*/
+		Log.d("AA", "setItemRequestFocus==");
 		isFocusChangeStatus = false;
 	}
 
@@ -824,7 +841,7 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 */
 	public void setViewFirstIndex(int viewFirstIndex) {
 		this.viewFirstIndex = viewFirstIndex;
-		mHandler.sendEmptyMessage(SELECT_FIRST_VIEW);
+		//mHandler.sendEmptyMessage(SELECT_FIRST_VIEW);
 	}
 
 	/**
@@ -845,7 +862,8 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	private void setSelectFirstView(){
 		if(null != baseAdapter){
 			try {
-				setItemRequestFocus(getViewFirstIndex());
+				viewIndex = getViewFirstIndex();
+				setItemRequestFocus(viewIndex);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1148,7 +1166,8 @@ public class CloudScreenLinearSelector extends RelativeLayout {
 	 * 
 	 */
 	enum DispathKayStatus{
-		LEFT
+		FIRST
+		,LEFT
 		,RIGHT
 		,LEFT_1
 		,RIGHT_1
